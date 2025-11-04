@@ -1,12 +1,15 @@
 var request = require('request');
 
+// [★★★★★ ★★★★★ 수정된 부분 ★★★★★ ★★★★★]
 const apiOptions = {
-  server: 'http://localhost:3000'
+  server: 'http://localhost:3000' // 개발 환경(로컬) 기본값
 };
 
 if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = 'http://localhost:3000'; // (나중에 실제 서버 주소로 변경)
+  // 프로덕션(배포) 환경일 경우, 라이브 API 서버 주소로 변경
+  apiOptions.server = 'https://loc8r-api-x3n7.onrender.com'; 
 }
+// [★★★★★ 수정 끝 ★★★★★]
 
 // [★★★★★ ★★★★★ 수정된 함수 ★★★★★ ★★★★★]
 /* Details 페이지 렌더링 헬퍼 함수 */
@@ -22,7 +25,7 @@ const renderDetailPage = (req, res, location) => {
       callToAction: 'If you\'ve been and you like it - or if you don\'t - please leave a review to help other people just like you.'
     },
     location: location,
-    googleApiKey: process.env.GOOGLE_API_KEY // [추가] Google API 키 전달
+    googleApiKey: process.env.GOOGLE_API_KEY // [추가] Google API 키 전달
   });
 };
 
@@ -39,10 +42,9 @@ const renderReviewForm = (req, res, {name}) => {
 // [★★★★★ 기존 헬퍼 함수 ★★★★★]
 /* API에서 locationid로 상세 정보 가져오기 */
 const getLocationInfo = (req, res, callback) => {
-// ... (기존 코드와 동일)
   const path = `/api/locations/${req.params.locationid}`;
   const requestOptions = {
-    url: `${apiOptions.server}${path}`,
+    url: `${apiOptions.server}${path}`, // [수정됨] apiOptions.server 값을 동적으로 사용
     method: 'GET',
     json: {}
   };
@@ -68,7 +70,6 @@ const getLocationInfo = (req, res, callback) => {
 // [★★★★★ 기존 헬퍼 함수 ★★★★★]
 /* 에러 페이지 렌더링 함수 */
 const showError = (req, res, status) => {
-// ... (기존 코드와 동일)
   let title = '';
   let content = '';
   if (status === 404) {
@@ -85,13 +86,13 @@ const showError = (req, res, status) => {
   });
 };
 
-// ... (formatDistanceToKm, renderHomepage, homelist, locationInfo, addReview 함수는 기존과 동일)
 // [헬퍼 함수] (변경 없음)
 const formatDistanceToKm = (distanceInMeters) => {
   if (typeof distanceInMeters !== 'number') { return '?'; }
   const distanceInKm = distanceInMeters / 1000;
   return `${distanceInKm.toFixed(1)}km`;
 };
+
 // [기존 함수] (변경 없음)
 const renderHomepage = (req, res, responseBody) => {
   let message = null;
@@ -112,13 +113,14 @@ const renderHomepage = (req, res, responseBody) => {
     message: message
   });
 };
+
 // [기존 함수] (변경 없음)
 const homelist = (req, res) => {
   const path = '/api/locations';
   const maxDistanceKm = 15.5;
   const maxDistanceMeters = maxDistanceKm * 1000;
   const requestOptions = {
-    url: `${apiOptions.server}${path}`,
+    url: `${apiOptions.server}${path}`, // [수정됨] apiOptions.server 값을 동적으로 사용
     method: 'GET',
     json: true,
     qs: {
@@ -139,7 +141,7 @@ const homelist = (req, res) => {
               location.distance = formatDistanceToKm(distanceAsNumber);
             } else {
               location.distance = '?';
-            }
+          t }
           }
           return location;
         });
@@ -148,12 +150,14 @@ const homelist = (req, res) => {
     }
   );
 };
+
 // [기존 함수] (변경 없음)
 const locationInfo = (req, res) => {
   getLocationInfo(req, res,
     (req, res, responseData) => renderDetailPage(req, res, responseData)
   );
 };
+
 // [기존 함수] (변경 없음)
 const addReview = (req, res) => {
   getLocationInfo(req, res,
@@ -174,15 +178,11 @@ const doAddReview = (req, res) => {
     reviewText: req.body.review
   };
 
-  // [추가] 애플리케이션 레벨 유효성 검사
-  // 폼 데이터가 비어있는지 확인
   if (!postdata.author || !postdata.rating || !postdata.reviewText) {
-    // 비어있다면 API 호출 없이 폼으로 리다이렉트
     res.redirect(`/location/${locationid}/review/new?err=val`);
   } else {
-    // [수정] 유효성 검사를 통과한 경우에만 API 호출
     const requestOptions = {
-      url: `${apiOptions.server}${path}`,
+      url: `${apiOptions.server}${path}`, // [수정됨] apiOptions.server 값을 동적으로 사용
       method: 'POST',
       json: postdata
     };
@@ -192,16 +192,14 @@ const doAddReview = (req, res) => {
       (err, {statusCode}, body) => {
         if (statusCode === 201) {
           res.redirect(`/location/${locationid}`);
-        // [수정] body.name 대신 body.name을 확인합니다. (이미지 참고)
         } else if (statusCode === 400 && body.name && body.name === 'ValidationError') {
-          // API(Mongoose) 레벨 유효성 검사 실패 시
           res.redirect(`/location/${locationid}/review/new?err=val`);
-        } else {
+  S     } else {
           showError(req, res, statusCode);
         }
       }
     );
-  } // else 블록 종료
+  } 
 };
 
 // [★★★★★ 수정된 module.exports ★★★★★]
