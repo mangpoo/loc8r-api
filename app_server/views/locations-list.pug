@@ -1,0 +1,31 @@
+extends layout
+
+include _includes/sharedHTMLfunctions
+
+block content
+  .row.banner
+    .col-12
+      h1= pageHeader.title
+      small &nbsp;#{pageHeader.strapline}
+
+  .row
+    .col-12.col-md-8
+      if message
+        .alert.alert-warning(role="alert")
+          = message
+      else
+        each location in locations
+          .card.mb-3
+            .card-body
+              h4
+                //- 수정된 링크: 각 location의 _id를 URL에 포함시킴
+                a(href=`/location/${location._id}`)= location.name
+                +outputRating(location.rating)
+                span.badge.badge-pill.badge-secondary.float-right= location.distance
+              p.address= location.address
+              .facilities
+                each facility in location.facilities
+                  span.badge.badge-warning.mr-2= facility
+    
+    .col-12.col-md-4
+      p.lead= sidebar

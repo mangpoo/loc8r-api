@@ -1,0 +1,18 @@
+extends layout
+
+//- [★★★★★ 수정 ★★★★★]
+//- sharedHTMLfunctions는 이 페이지에서 사용하지 않으므로 
+//- include 라인을 제거하거나, 필요하다면 유지합니다.
+//- include _includes/sharedHTMLfunctions 
+
+block content
+  .row.banner
+    .col-12
+      //- [★★★★★ 수정된 부분 ★★★★★]
+      //- pageHeader.title 대신 'title' 변수를 직접 사용합니다.
+      h1= title
+  .row
+    .col-12
+      //- [★★★★★ 추가된 부분 ★★★★★]
+      //- 'content' 변수를 p 태그로 렌더링합니다. (Image 2 참고)
+      p= content
