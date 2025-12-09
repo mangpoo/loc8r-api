@@ -1,0 +1,12 @@
+[build]
+  # Angular 빌드 명령어 (package.json에 build 스크립트가 있다고 가정)
+  command = "npm run build"
+  
+  # 빌드 후 결과물이 생기는 폴더 위치 (이미지 4번 참고)
+  publish = "dist/loc8r-public/browser"
+
+# Angular 같은 SPA(Single Page App)를 위한 리다이렉트 설정
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
