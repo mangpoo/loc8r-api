@@ -1,11 +1,15 @@
 [build]
-  # Angular 빌드 명령어 (package.json에 build 스크립트가 있다고 가정)
+  # 중요: Netlify에게 작업할 폴더 위치를 알려줍니다.
+  base = "app_public"
+
+  # app_public 폴더 안에서 실행할 명령어
   command = "npm run build"
   
-  # 빌드 후 결과물이 생기는 폴더 위치 (이미지 4번 참고)
+  # 빌드 결과물이 나오는 폴더 (app_public 기준 상대 경로)
+  # (보내주신 사진 image_af3258.png 참고함)
   publish = "dist/loc8r-public/browser"
 
-# Angular 같은 SPA(Single Page App)를 위한 리다이렉트 설정
+# 앵귤러 라우팅을 위한 리다이렉트 설정
 [[redirects]]
   from = "/*"
   to = "/index.html"
