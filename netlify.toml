@@ -1,0 +1,16 @@
+[build]
+  # 1. Netlify에게 "app_public 폴더가 작업의 기준이야"라고 알려줍니다.
+  base = "app_public"
+
+  # 2. 기준 폴더 안에서 실행할 명령어
+  command = "npm install && npm run build"
+  
+  # 3. [중요] 기준 폴더(app_public) 안에서 결과물이 어디 있는지 알려줍니다.
+  # "app_public/"을 빼고 적어야 합니다! (base가 이미 지정했기 때문)
+  publish = "dist/loc8r-public/browser"
+
+# 4. 새로고침 시 404 에러 방지
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
