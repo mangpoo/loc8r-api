@@ -1,0 +1,18 @@
+<div class="error">{{ message }}</div>
+
+<div class="card mb-3" *ngFor="let location of locations">
+  <div class="card-body">
+    <h4>
+      <a [routerLink]="['/location', location._id]">{{ location.name }}</a>
+      <small class="ml-2">
+        <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]"></i>
+      </small>
+      <span class="badge badge-pill badge-default float-right">{{ location.distance | number:'1.0-1' }}m</span>
+    </h4>
+    <p class="address">{{ location.address }}</p>
+    <div class="facilities">
+      <span class="badge badge-warning mr-2" *ngFor="let facility of location.facilities">{{ facility }}</span>
+    </div>
+    <p>by 2025810086 김승운</p>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<nav class="navbar fixed-top navbar-expand-md navbar-light">
+  <div class="container">
+    <a routerLink="/" class="navbar-brand" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Loc8r</a>
+
+    <button type="button" data-toggle="collapse" data-target="#navbarMain" class="navbar-toggler">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbarMain" class="navbar-collapse collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a routerLink="/about" class="nav-link" routerLinkActive="active">About</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav justify-content-end">
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a routerLink="/login" class="nav-link">Sign in</a>
+        </li>
+        <li class="nav-item dropdown" *ngIf="isLoggedIn()">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {{ getUsername() }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)="doLogout()" style="cursor: pointer;">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container content">
+  <router-outlet></router-outlet>
+  <footer>
+    <div class="row">
+      <div class="col-12">
+        <small>&copy; Seungwoon Kim</small>
+      </div>
+    </div>
+  </footer>
+</div>

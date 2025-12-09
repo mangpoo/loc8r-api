@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card card-primary review-card">
+      <div class="card-block" [ngSwitch]="isLoggedIn()">
+        <button (click)="formVisible=true" class="btn btn-primary float-end" 
+                *ngSwitchCase="true">Add review</button>
+        <a routerLink="/login" class="btn btn-primary float-end" 
+           *ngSwitchDefault>Log in to add review</a>
+        
+        <h2 class="card-title">Customer reviews</h2>
+        
+        <div *ngIf="formVisible && isLoggedIn()"> 
+          <form (ngSubmit)="onReviewSubmit()">
+            <hr>
+            <h4>Add your review</h4>
+            <div *ngIf="formError" class="alert alert-danger" role="alert">
+              {{ formError }}
+            </div>
+            
+            <div class="form-group row">
+              <label for="rating" class="col-sm-2 col-form-label">Rating</label>
+              <div class="col-sm-10">
+                <select [(ngModel)]="newReview.rating" name="rating" id="rating" class="form-control">
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="4">4</option>
+                  <option [ngValue]="3">3</option>
+                  <option [ngValue]="2">2</option>
+                  <option [ngValue]="1">1</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="review" class="col-sm-2 col-form-label">Review</label>
+              <div class="col-sm-10">
+                <textarea [(ngModel)]="newReview.reviewText" name="review" id="review" rows="5" class="form-control"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary float-end">Submit review</button>
+                <button type="button" (click)="formVisible=false" class="btn btn-default float-end">Cancel</button>
+              </div>
+            </div>
+            <hr>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row review" *ngFor="let review of location.reviews | mostRecentFirst">
+       <div class="col-12 no-gutters">
+          <div class="review-header">
+            <span class="rating">
+               <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" [class.checked]="star <= review.rating"></i>
+            </span>
+            <span class="reviewAuthor">{{ review.author }}</span>
+            <small class="reviewTimestamp">{{ review.createdOn | date:'d MMMM yyyy' }}</small>
+          </div>
+          <div class="col-12">
+            <p>{{ review.reviewText }}</p>
+          </div>
+       </div>
+    </div>
+
+  </div>
+</div>
