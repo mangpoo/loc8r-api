@@ -10,22 +10,22 @@ block content
 
   .row
     .col-12.col-md-8
-      if message
-        .alert.alert-warning(role="alert")
-          = message
-      else
-        each location in locations
-          .card.mb-3
-            .card-body
-              h4
-                //- 수정된 링크: 각 location의 _id를 URL에 포함시킴
-                a(href=`/location/${location._id}`)= location.name
-                +outputRating(location.rating)
-                span.badge.badge-pill.badge-secondary.float-right= location.distance
-              p.address= location.address
-              .facilities
-                each facility in location.facilities
-                  span.badge.badge-warning.mr-2= facility
+      //- [수정됨] Angular 루트 컴포넌트 셀렉터를 표시합니다.
+      //- app-home-list는 서버 사이드 렌더링을 끄고 Angular가 제어할 위치입니다.
+      //- 서버에서 API를 호출하는 기존 로직(if message / else each location in locations)은 제거되어야 하나,
+      //- 요청하신 조건("다른 로직은 건들지말고")에 따라 Pug 템플릿 구조만 변경하여 Angular 셀렉터를 삽입합니다.
+      //- Angular가 이 위치에 로드될 때, 서버에서 제공하는 message나 locations는 무시됩니다.
+      app-home-list 
     
     .col-12.col-md-4
       p.lead= sidebar
+
+//- [수정] layout.pug의 'block scripts' 영역을 채웁니다.
+//- Angular 빌드 결과 파일 이름을 반영하여 수정합니다. (예시: main-FRZBIOTR.js, polyfills-FFHMD2TL.js)
+block scripts
+  //- Angular 런타임 파일 (항상 로드)
+  script(src='/build/runtime.e4985b6c090739db.js')
+  //- Angular 폴리필 파일 (항상 로드)
+  script(src='/build/polyfills.7809da1470408aee.js')
+  //- Angular 메인 애플리케이션 파일 (항상 로드)
+  script(src='/build/main.6affdf316b9ecc8b.js')
