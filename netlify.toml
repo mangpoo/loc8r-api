@@ -1,15 +1,15 @@
 [build]
-  # 중요: Netlify에게 작업할 폴더 위치를 알려줍니다.
+  # 1. 넷리파이에게 "app_public 폴더가 진짜 작업 공간이야"라고 알려줌
   base = "app_public"
 
-  # app_public 폴더 안에서 실행할 명령어
-  command = "npm run build"
+  # 2. app_public 폴더 안에서 실행할 명령어 (Angular 빌드)
+  command = "npm install && npm run build"
   
-  # 빌드 결과물이 나오는 폴더 (app_public 기준 상대 경로)
-  # (보내주신 사진 image_af3258.png 참고함)
+  # 3. 빌드가 끝나면 결과물이 생기는 위치 (app_public 기준)
+  # (보내주신 이미지 image_af3258.png 경로 참고함)
   publish = "dist/loc8r-public/browser"
 
-# 앵귤러 라우팅을 위한 리다이렉트 설정
+# 4. 새로고침했을 때 404 에러 방지 (SPA 라우팅 처리)
 [[redirects]]
   from = "/*"
   to = "/index.html"
