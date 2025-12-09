@@ -1,15 +1,15 @@
 [build]
-  # 1. 넷리파이에게 "app_public 폴더가 진짜 작업 공간이야"라고 알려줌
-  base = "app_public"
-
-  # 2. app_public 폴더 안에서 실행할 명령어 (Angular 빌드)
-  command = "npm install && npm run build"
+  # base 설정은 삭제합니다! (경로 꼬임 방지)
   
-  # 3. 빌드가 끝나면 결과물이 생기는 위치 (app_public 기준)
-  # (보내주신 이미지 image_af3258.png 경로 참고함)
-  publish = "dist/loc8r-public/browser"
+  # 1. app_public 폴더로 이동(cd) -> 라이브러리 설치(npm install) -> 빌드(npm run build)
+  # 이렇게 한 줄에 다 적어주면 경로 실수가 없습니다.
+  command = "cd app_public && npm install && npm run build"
+  
+  # 2. 결과물이 나오는 진짜 위치를 '최상위 폴더 기준'으로 길게 적어줍니다.
+  # (보내주신 image_af3258.png 경로 반영)
+  publish = "app_public/dist/loc8r-public/browser"
 
-# 4. 새로고침했을 때 404 에러 방지 (SPA 라우팅 처리)
+# 3. 새로고침 에러 방지 (SPA 설정)
 [[redirects]]
   from = "/*"
   to = "/index.html"
