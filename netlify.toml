@@ -1,15 +1,16 @@
 [build]
-  # 1. Netlify에게 "app_public 폴더가 작업의 기준이야"라고 알려줍니다.
-  base = "app_public"
+  # 1. "." 은 프로젝트의 가장 맨 바깥쪽(Root)을 의미합니다.
+  # 이렇게 하면 Netlify 웹사이트의 'app_public' 설정을 무시합니다.
+  base = "."
 
-  # 2. 기준 폴더 안에서 실행할 명령어
-  command = "npm install && npm run build"
+  # 2. 최상위에서 app_public 폴더로 들어가서 설치 및 빌드를 실행합니다.
+  command = "cd app_public && npm install && npm run build"
   
-  # 3. [중요] 기준 폴더(app_public) 안에서 결과물이 어디 있는지 알려줍니다.
-  # "app_public/"을 빼고 적어야 합니다! (base가 이미 지정했기 때문)
-  publish = "dist/loc8r-public/browser"
+  # 3. 최상위 기준으로 결과물이 있는 '전체 경로'를 적어줍니다.
+  # (이 경로는 보내주신 angular.json 설정을 기반으로 작성했습니다)
+  publish = "app_public/dist/loc8r-public/browser"
 
-# 4. 새로고침 시 404 에러 방지
+# 4. SPA 라우팅 문제 해결 (새로고침 시 404 방지)
 [[redirects]]
   from = "/*"
   to = "/index.html"
